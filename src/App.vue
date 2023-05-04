@@ -25,7 +25,6 @@ import Container from "@/components/Container";
 import postsData from "@/data/posts";
 import axios from "axios";
 
-
 export default {
   name: 'App',
   components: { Container },
