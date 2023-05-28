@@ -1,23 +1,25 @@
 <template>
   <div class="header">
     <ul class="header-button-left">
-      <li>Cancel</li>
+      <li @click="this.contentInc">Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="content <= 1" @click="this.contentDec">Next</li>
+      <li v-else @click="publish">발행</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :postsData="postsData"/>
-  <button @click="more">더보기</button>
+  <Container :selectFilter="selectFilter" :postsData="postsData" :content="content" :url="uploadImgUrl" @write="write"/>
+<!--  <button @click="more">더보기</button>-->
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input @change="upload" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
   </div>
+
 </template>
 
 <script>
@@ -32,7 +34,16 @@ export default {
     return {
       postsData: postsData,
       moreStatus: 0,
+      content: 0,
+      uploadImgUrl: '',
+      uploadWrite: '',
+      selectFilter: '',
     }
+  },
+  mounted() {
+    this.emitter.on('selectFilter', (v) => {
+      this.selectFilter = v;
+    })
   },
   methods: {
     more() {
@@ -45,7 +56,37 @@ export default {
         alert('더이상 게시물이 존재하지 않습니다.');
         console.log(err)
       })
-    }
+    },
+    contentDec() {
+      if(this.uploadImgUrl === '') return;
+      this.content += 1;
+    },
+    contentInc() {
+      if(this.content < 1) return;
+      this.content -= 1;
+    },
+    upload(e) {
+      let pic = e.target.files;
+      this.uploadImgUrl = URL.createObjectURL(pic[0]);
+      this.contentDec();
+    },
+    publish() {
+      let addPostData = {
+        name: "Kim Hyun",
+        userImage: "https://placeimg.com/100/100/arch",
+        postImage: this.uploadImgUrl,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.uploadWrite,
+        filter: this.selectFilter,
+      };
+      this.postsData.unshift(addPostData);
+      this.content = 0;
+    },
+    write(txt) {
+      this.uploadWrite = txt;
+    },
   }
 }
 </script>

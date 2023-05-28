@@ -4,10 +4,10 @@
       <div class="profile" :style="{ backgroundImage: 'url('+post.userImage+')' }"></div>
       <span class="profile-name">{{ post.name }}</span>
     </div>
-    <div class="post-body" :style="{ backgroundImage: 'url('+post.postImage+')' }"></div>
+    <div class="post-body" :class="selectFilter" :style="{ backgroundImage: 'url('+post.postImage+')' }" @click="$store.commit('likesToggle')"></div>
     <div class="post-content">
       <p>{{ post.likes }} Likes</p>
-      <p><strong>글쓴이아이디</strong> {{ post.content }}</p>
+      <p><strong>{{ post.name }}</strong> {{ post.content }}</p>
       <p class="date">{{ post.date }}</p>
     </div>
   </div>
@@ -18,6 +18,7 @@ export default {
   name: "Post",
   props: {
     post: Array,
+    selectFilter: String,
   }
 }
 </script>
