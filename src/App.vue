@@ -26,6 +26,7 @@
 import Container from "@/components/Container";
 import postsData from "@/data/posts";
 import axios from "axios";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: 'App',
@@ -34,7 +35,7 @@ export default {
     return {
       postsData: postsData,
       moreStatus: 0,
-      content: 0,
+      content: 3,
       uploadImgUrl: '',
       uploadWrite: '',
       selectFilter: '',
@@ -45,7 +46,16 @@ export default {
       this.selectFilter = v;
     })
   },
+  computed: {
+    name() {
+      return this.$store.state.name
+    },
+    ...mapState(['name', 'age', 'likes']),
+    ...mapState({ myName: 'name'}),
+  },
   methods: {
+    ...mapMutations(['ageDec']),
+
     more() {
       axios.get('https://codingapple1.github.io/vue/more'+this.moreStatus+'.json')
       .then((result) => {

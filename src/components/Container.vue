@@ -13,11 +13,15 @@
       </div>
     </div>
 
-    <div v-else>
+    <div v-else-if="content === 2">
       <div class="upload-image" :class="selectFilter" :style="`background-image:url(${url})`"></div>
       <div class="write">
         <textarea @input="$emit('write',$event.target.value)" class="write-box">write!</textarea>
       </div>
+    </div>
+
+    <div v-else>
+      <MyPage></MyPage>
     </div>
 
 
@@ -27,10 +31,11 @@
 <script>
 import Post from "@/components/Post";
 import FilterBox from "@/components/FilterBox";
+import MyPage from "@/components/MyPage";
 
 export default {
   name: "Container",
-  components: { Post, FilterBox },
+  components: { Post, FilterBox, MyPage },
   props: {
     postsData: Array,
     content: Number,

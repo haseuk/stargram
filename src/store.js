@@ -7,7 +7,7 @@ const store = createStore({
       name: 'kim',
       age: 20,
       likes: 0,
-      likeClicked: true,
+      likeClicked: false,
       postsData: postsData,
     }
   },
@@ -19,12 +19,13 @@ const store = createStore({
       state.age += payload;
     },
     likesToggle(state) {
-      if(state.likeClicked === true) {
+      console.log(state)
+      if(state.likeClicked === false) {
         state.likes += 1;
-        state.likeClicked = false;
+        state.likeClicked = true;
       } else {
         state.likes -= 1;
-        state.likeClicked = true;
+        state.likeClicked = false;
       }
     }
   }
